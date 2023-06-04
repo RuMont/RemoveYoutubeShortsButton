@@ -12,7 +12,7 @@
 (function () {
   'use strict';
   const kickFromShortsPage = () => {
-    if (window.location.href.includes('shorts')) window.location.replace("https://www.youtube.com");
+    if (window.location.href.includes('/shorts')) window.location.replace("https://www.youtube.com");
   }
 
   const removeShortsButton = setInterval(function () {
