@@ -15,11 +15,16 @@
     if (window.location.href.includes('shorts')) window.location.replace("https://www.youtube.com");
   }
 
+  const removeShortsButton = setInterval(function () {
+    if (document.querySelector('a[title="Shorts"]') != null) {
+      document.querySelector('a[title="Shorts"]').remove();
+      clearInterval(removeShortsButton);
+    }
+  }, 20);
+
   window.addEventListener('yt-page-type-changed', (e) => {
-    if (document.querySelector('a[title="Shorts"]') != null) document.querySelector('a[title="Shorts"]').remove();
     kickFromShortsPage();
   });
 
-  if (document.querySelector('a[title="Shorts"]') != null) document.querySelector('a[title="Shorts"]').remove();
   kickFromShortsPage();
 })();
