@@ -10,21 +10,32 @@
 // ==/UserScript==
 
 (function () {
-  'use strict';
-  const kickFromShortsPage = () => {
-    if (window.location.href.includes('/shorts')) window.location.replace("https://www.youtube.com");
-  }
-
-  const removeShortsButton = setInterval(function () {
-    if (document.querySelector('a[title="Shorts"]') != null) {
-      document.querySelector('a[title="Shorts"]').remove();
-      clearInterval(removeShortsButton);
+    'use strict';
+    const kickFromShortsPage = () => {
+        if (window.location.href.includes('/shorts')) window.location.replace("https://www.youtube.com");
     }
-  }, 20);
 
-  window.addEventListener('yt-page-type-changed', (e) => {
+    const removeShortsButton = setInterval(function () {
+        if (document.querySelector('a[title="Shorts"]') != null) {
+            document.querySelector('a[title="Shorts"]').remove();
+            clearInterval(removeShortsButton);
+        }
+    }, 20);
+
+    const deleteShortsSections = () => {
+        const observer = new MutationObserver((mutations) => {
+            const sections = document.querySelectorAll('#contents > ytd-rich-section-renderer');
+            if (sections.length) {
+                sections.forEach(s => s.remove());
+            }
+        });
+        observer.observe(document, {attributes: false, childList: true, characterData: false, subtree:true});
+    }
+
+    window.addEventListener('yt-page-type-changed', (e) => {
+        kickFromShortsPage();
+    });
+
     kickFromShortsPage();
-  });
-
-  kickFromShortsPage();
+    deleteShortsSections();
 })();
